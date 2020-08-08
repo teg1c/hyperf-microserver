@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  consul:
+    image: consul:latest
+    container_name: consul
+    command: "agent -server -bootstrap -ui -node=consul-server-leader -client=0.0.0.0"
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    ports:
+      - "8500:8500"
+    networks:
+      - microservice
+
+  server1:
+    build:
+      context: .
+    container_name: "server1"
+    command: "composer update && php bin/hyperf.php start"
+    depends_on:
+      - "consul"
+    volumes:
+      - ./www/server1:/var/www
+    networks:
+      - microservice
+    tty: true
+
+  server2:
+    build:
+      context: .
+    container_name: "server2"
+    command: "composer update && php bin/hyperf.php start"
+    depends_on:
+      - "consul"
+    volumes:
+      - ./www/server2:/var/www
+    networks:
+      - microservice
+    tty: true
+
+  app:
+    build:
+      context: .
+    container_name: "app"
+    command: "composer update && php bin/hyperf.php start"
+    depends_on:
+      - "server1"
+      - "server2"
+    volumes:
+      - ./www/api:/var/www
+    ports:
+      - "9507:9501"
+    networks:
+      - microservice
+    tty: true
+
+networks:
+  microservice:
+    driver: bridge
+
+volumes:
+  microservice:
+    driver: local
