@@ -19,9 +19,4 @@ class IndexController extends AbstractController
     {
         return $userService->add(1,2);
     }
-
-    public function rpc(UserServiceInterface $userService)
-    {
-        return $userService->add(1,2);
-    }
 }
