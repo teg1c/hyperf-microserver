@@ -12,7 +12,4 @@ RUN set -x; \
     mv composer.phar /usr/local/bin/composer; \
     composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
-# Set default work directory
 WORKDIR /var/www
-
-# EXPOSE 9501
