@@ -21,6 +21,8 @@ services:
       - "consul"
     volumes:
       - ./www/server1:/var/www
+    ports:
+    - 9511:9502
     networks:
       - microservice
     tty: true
@@ -38,10 +40,10 @@ services:
       - microservice
     tty: true
 
-  app:
+  api:
     build:
       context: .
-    container_name: "app"
+    container_name: "api"
     command: "php bin/hyperf.php start"
     depends_on:
       - "server1"
@@ -53,6 +55,20 @@ services:
     networks:
       - microservice
     tty: true
+#
+#  prometheus:
+#    image: prom/prometheus
+#    ports:
+#      - "9090:9090"
+#    networks:
+#      - microservice
+#
+#  grafana:
+#    image: grafana/grafana
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - microservice
 
 networks:
   microservice:
