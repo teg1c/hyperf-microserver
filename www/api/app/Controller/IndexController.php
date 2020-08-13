@@ -17,6 +17,6 @@ class IndexController extends AbstractController
 {
     public function index(UserServiceInterface $userService)
     {
-        return $userService->add(1,2);
+        return $userService->add(2,2);
     }
 }

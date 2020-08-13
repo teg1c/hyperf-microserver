@@ -16,22 +16,19 @@ return [
     'mode' => SWOOLE_PROCESS,
     'servers' => [
         [
-            'name' => 'jsonrpc-http',
-            'type' => Server::SERVER_HTTP,
+            'name' => 'jsonrpc',
+            'type' => Server::SERVER_BASE,
             'host' => '0.0.0.0',
             'port' => 9502,
             'sock_type' => SWOOLE_SOCK_TCP,
             'callbacks' => [
-                SwooleEvent::ON_REQUEST => [Hyperf\JsonRpc\HttpServer::class, 'onRequest'],
+                SwooleEvent::ON_RECEIVE => [\Hyperf\JsonRpc\TcpServer::class, 'onReceive'],
             ],
-            /*'name' => 'http',
-            'type' => Server::SERVER_HTTP,
-            'host' => '0.0.0.0',
-            'port' => 9501,
-            'sock_type' => SWOOLE_SOCK_TCP,
-            'callbacks' => [
-                SwooleEvent::ON_REQUEST => [Hyperf\HttpServer\Server::class, 'onRequest'],
-            ],*/
+            'settings' => [
+                'open_eof_split' => true,
+                'package_eof' => "\r\n",
+                'package_max_length' => 1024 * 1024 * 2,
+            ],
         ],
     ],
     'settings' => [

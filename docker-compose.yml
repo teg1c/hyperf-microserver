@@ -34,6 +34,8 @@ services:
     command: "php bin/hyperf.php start"
     depends_on:
       - "consul"
+    ports:
+    - 9512:9502
     volumes:
       - ./www/server2:/var/www
     networks:

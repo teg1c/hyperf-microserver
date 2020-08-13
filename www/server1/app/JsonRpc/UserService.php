@@ -7,7 +7,7 @@ namespace App\JsonRpc;
 use Hyperf\RpcServer\Annotation\RpcService;
 
 /**
- * @RpcService(name="UserService", protocol="jsonrpc-http", server="jsonrpc-http", publishTo="consul")
+ * @RpcService(name="UserService", protocol="jsonrpc", server="jsonrpc", publishTo="consul")
  */
 class UserService implements UserServiceInterface
 {
